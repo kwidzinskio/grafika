@@ -25,59 +25,41 @@ namespace Wypełnianie_obszaru
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            
-            FillArea(5, 5);
-        }
-        private void FillArea(int x, int y )
-        {
             Bitmap image = (Bitmap)pictureBox1.Image;
-            int width = image.Width;
-            int height = image.Height;
-            Color borderColor = image.GetPixel(1, 1);
-            Color fillColor = Color.Azure;
-            // Sprawdzanie, czy punkt znajduje się w obszarze obrazka
-            if (x < 0 || x >= width || y < 0 || y >= height)
+
+            FillArea(25, 25, image);
+        }
+        private void FillArea(int x, int y, Bitmap image)
+        {
+            Color borderColor = image.GetPixel(0, 0);
+            Color fillColor = Color.BlueViolet;
+
+            if (x < 0 || x >= image.Width - 1 || y < 0 || y >= image.Height - 1)
             {
                 return;
             }
 
-
-            // Sprawdzanie, czy piksel ma odpowiedni kolor
-            //Color pixelColor = image.GetPixel(x, y);
-            //if (pixelColor != borderColor && pixelColor != insideColor)
-            //{
-            //    return;
-            //}
-
-            // Wypełnianie piksela nowym kolorem
             image.SetPixel(x, y, fillColor);
 
-            // Rekurencyjne wypełnianie sąsiadujących pikseli
-            //if (image.GetPixel(x - 1, y) != borderColor && image.GetPixel(x-1,y)!=fillColor)
-            //{ FillArea(x - 1, y); }
-            //if (image.GetPixel(x + 1, y) != borderColor && image.GetPixel(x + 1, y) != fillColor)
-            //{ FillArea(x + 1, y); }
-            //if (image.GetPixel(x, y - 1) != borderColor && image.GetPixel(x , y-1) != fillColor)
-            //{ FillArea(x, y - 1); }
-            //if (image.GetPixel(x, y + 1) != borderColor && image.GetPixel(x, y+1) != fillColor)
-            //{ FillArea(x, y + 1); }
+            if (image.GetPixel(x - 1, y).ToArgb() != borderColor.ToArgb() && image.GetPixel(x - 1, y).ToArgb() != fillColor.ToArgb())
+            {
+                FillArea(x - 1, y, image);
+            }
+            if (image.GetPixel(x + 1, y).ToArgb() != borderColor.ToArgb() && image.GetPixel(x + 1, y).ToArgb() != fillColor.ToArgb())
+            {
+                FillArea(x + 1, y, image);
+            }
+            if (image.GetPixel(x, y - 1).ToArgb() != borderColor.ToArgb() && image.GetPixel(x, y - 1).ToArgb() != fillColor.ToArgb())
+            {
+                FillArea(x, y - 1, image);
+            }
+            if (image.GetPixel(x, y + 1).ToArgb() != borderColor.ToArgb() && image.GetPixel(x, y + 1).ToArgb() != fillColor.ToArgb())
+            {
+                FillArea(x, y + 1, image);
+            }
+
             pictureBox1.Image = image;
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Bitmap image = (Bitmap)pictureBox1.Image;
-            image.SetPixel(5, 5, Color.Azure);
-            image.SetPixel(6, 5, Color.Azure);
-            image.SetPixel(7, 5, Color.Azure);
-            pictureBox2.Image = image;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
-    }
+}
 
